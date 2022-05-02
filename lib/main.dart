@@ -68,32 +68,62 @@ class _MyHomePageState extends State<MyHomePage> {
           ? SecondePage()
           : Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(
-                    'Food Delivery',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Your',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'Food Delivery App',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Image.asset(
+                    'assets/HomeIcon.png',
+                    height: MediaQuery.of(context).size.height * 0.15,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => WelcomePage()));
-                      },
-                      child: Text(
-                        'Commencer',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WelcomePage()));
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.redAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+                        label: Text(
+                          'Commencer',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(127, 65, 170, 255),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
                         ),
                       ),
                     ),
