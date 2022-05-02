@@ -36,6 +36,11 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   badges:
+  sqflite: 
+  path_provider: 
+  path: 
+  email_validator:
+  shared_preferences: 
  
 
 dev_dependencies:

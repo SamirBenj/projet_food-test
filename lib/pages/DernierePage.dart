@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projet_food/SecondePage.dart';
+import 'SecondePage.dart';
 
 class DernierePage extends StatefulWidget {
   const DernierePage({Key? key}) : super(key: key);

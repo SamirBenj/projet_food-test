@@ -1,11 +1,12 @@
-//import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
-import 'package:projet_food/CategoriePage.dart';
-import 'package:projet_food/PanierPage.dart';
-import 'package:projet_food/DetailsPage.dart';
-import 'package:projet_food/RecettePage.dart';
-import 'package:projet_food/Classes/classProduit.dart';
+import 'package:projet_food/sqflite/screens/welcome.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'CategoriePage.dart';
+import 'PanierPage.dart';
+import 'DetailsPage.dart';
+import 'RecettePage.dart';
+import 'package:projet_food/class/classProduit.dart';
 
 class SecondePage extends StatefulWidget {
   const SecondePage({Key? key}) : super(key: key);
@@ -18,6 +19,27 @@ class _SecondePageState extends State<SecondePage> {
   int totalPanier = 0;
   bool checkbox = false;
   //int qte;
+
+  final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
+  String? email;
+  String? username;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
+
+  //recupere les données de l'utilisateur lors du login
+  void getUserData() async {
+    final SharedPreferences sp = await _pref;
+    setState(() {
+      email = sp.getString('email');
+      username = sp.getString('username');
+    });
+    print('email sp:' + email!);
+    print('username sp: ' + username!);
+  }
 
   fonctionAddition() {
     totalPanier++;
@@ -70,6 +92,20 @@ class _SecondePageState extends State<SecondePage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () async {
+            SharedPreferences sp = await _pref;
+            sp.clear();
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WelcomePage(),
+              ),
+              (Route<dynamic> route) => false,
+            );
+          },
+          child: Icon(Icons.logout_outlined),
+        ),
         title: Text(
           'Accueil',
           style: TextStyle(color: Colors.white, fontSize: 20),
@@ -107,6 +143,33 @@ class _SecondePageState extends State<SecondePage> {
       body: Column(
         children: [
           Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Bonjour',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    username.toString(),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -133,13 +196,15 @@ class _SecondePageState extends State<SecondePage> {
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RecettePage(
-                                  articlePanier: produitSelectionner.length,
-                                  produitSelectionner: produitSelectionner,
-                                  //produitList: produits,
-                                )));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RecettePage(
+                          articlePanier: produitSelectionner.length,
+                          produitSelectionner: produitSelectionner,
+                          //produitList: produits,
+                        ),
+                      ),
+                    );
                   },
                   child: Text('Recettes'),
                   style: ElevatedButton.styleFrom(
@@ -193,6 +258,9 @@ class _SecondePageState extends State<SecondePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Image(
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 120,
                             image: AssetImage(
                               produits[index].imageProduit,
                             ),
@@ -225,6 +293,7 @@ class _SecondePageState extends State<SecondePage> {
                               child: Text(
                                 '${produits[index].description}',
                                 maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.orangeAccent,
                                   fontWeight: FontWeight.bold,
@@ -232,115 +301,43 @@ class _SecondePageState extends State<SecondePage> {
                               ),
                             ),
                           ),
-                          Expanded(
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                /*Expanded(
-                                  child: TextFormField(
-                                    decoration: const InputDecoration(
-                                      border: UnderlineInputBorder(),
-                                      labelText: 'Entrer la quantité',
-                                    ),
-                                    obscureText: false,
-
-                                    //controller:
-                                    // TextEditingController(text: 'Champ obligatoire'),
-                                  ),
-                                ),
-                                */
-                                /*
                                 Expanded(
-                                  child: DropdownButton(
-                                    onChanged: (String? newValue) {
+                                  child: DropdownButtonFormField(
+                                    style: TextStyle(color: Colors.white),
+                                    decoration: InputDecoration(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                        borderSide: BorderSide(
+                                            color: Colors.orangeAccent),
+                                      ),
+                                      filled: true,
+                                      fillColor: Colors.orangeAccent,
+                                    ),
+                                    dropdownColor: Colors.orangeAccent,
+                                    items: [
+                                      DropdownMenuItem(
+                                        value: '1',
+                                        child: Text('1'),
+                                      ),
+                                      DropdownMenuItem(
+                                        value: '2',
+                                        child: Text('2'),
+                                      ),
+                                    ],
+                                    value: quantiter,
+                                    onChanged: (value) {
                                       setState(() {
-                                        dropdownValue = newValue!;
+                                        quantiter != value;
                                       });
+
+                                      //recuperer la valeur qui value d'ou le print
+                                      print(value);
                                     },
-                                    value: dropdownValue,
-                                    items: items.map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                ),
-                                */
-
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: DropdownButtonFormField(
-                                      style: TextStyle(color: Colors.white),
-                                      decoration: InputDecoration(
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20),
-                                          borderSide: BorderSide(
-                                              color: Colors.orangeAccent),
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.orangeAccent,
-                                      ),
-                                      dropdownColor: Colors.orangeAccent,
-                                      items: [
-                                        DropdownMenuItem(
-                                          value: '1',
-                                          child: Text('1'),
-                                        ),
-                                        DropdownMenuItem(
-                                          value: '2',
-                                          child: Text('2'),
-                                        ),
-                                      ],
-                                      value: quantiter,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          quantiter != value;
-                                        });
-
-                                        //recuperer la valeur qui value d'ou le print
-                                        print(value);
-                                      },
-                                    ),
-
-                                    /*
-                                    child: DropdownButtonFormField(
-                                      decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30),
-                                        ),
-                                        filled: true,
-                                        hintText: "Choisissez un motif",
-                                        hintStyle: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      value: qte,
-                                      icon: const Icon(Icons.arrow_drop_down),
-                                      iconSize: 36,
-                                      isExpanded: true,
-                                      onChanged: (newqte) {
-                                        Recup(newqte);
-                                      },
-                                      items: listMotif.map((valeurqte) {
-                                        return DropdownMenuItem(
-                                          value: valeurqte,
-                                          child: Text(
-                                            valeurqte,
-                                            style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                        );
-                                      }).toList(),
-                                    ),
-                                    */
                                   ),
                                 ),
                                 Checkbox(
@@ -366,7 +363,7 @@ class _SecondePageState extends State<SecondePage> {
               },
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 mainAxisSpacing: 20,
-                mainAxisExtent: 350,
+                mainAxisExtent: 340,
                 crossAxisCount: 2,
               ),
             ),

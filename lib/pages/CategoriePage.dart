@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projet_food/Classes/classCategorie.dart';
-import 'package:projet_food/ProduitCategorie.dart';
+import 'package:projet_food/class/classCategorie.dart';
 import 'package:badges/badges.dart';
+
+import 'ProduitCategorie.dart';
 
 class CategoriePage extends StatefulWidget {
   final articlePanier;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projet_food/CommandePage.dart';
+import 'CommandePage.dart';
 import 'package:badges/badges.dart';
-import 'package:projet_food/DernierePage.dart';
 
 class PanierPage extends StatefulWidget {
   final articlePanier;

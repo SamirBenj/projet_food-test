@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:projet_food/Classes/classProduit.dart';
 import 'package:badges/badges.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -69,41 +68,64 @@ class _DetailsPageState extends State<DetailsPage> {
       body: Column(
         children: [
           Center(
-            child: Image.asset(widget.imageProduit.toString()),
+            child: Image.asset(
+              widget.imageProduit.toString(),
+              width: double.infinity,
+              height: 230,
+              fit: BoxFit.contain,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.nomProduit,
-                  style: TextStyle(
-                    color: Colors.green,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+            child: Container(
+              padding: EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(175, 111, 185, 255),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.nomProduit,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17,
+                    ),
                   ),
-                ),
-                Text(
-                  widget.prix.toString() + '€',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+                  Text(
+                    widget.prix.toString() + '€',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.all(15),
-              child: Text(
-                widget.description,
-                style: TextStyle(
-                  color: Colors.orangeAccent,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
+          Padding(
+            padding: const EdgeInsets.only(
+              left: 15.0,
+              right: 15.0,
+            ),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.13,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 111, 185, 255),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(15),
+                child: Text(
+                  widget.description,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),
