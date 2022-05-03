@@ -49,40 +49,24 @@ class _SecondePageState extends State<SecondePage> {
     totalPanier--;
   }
 
-/*
-  void Recup(newqte) {
-    if (newqte == 1) {
-      newqte == quantiter;
-    } else if (newqte == 2) {
-      newqte == quantiter;
-    }
-  }
-*/
-  //List listMotif = [1, 2, 3, 4, 5];
-
   List<Produit> produits = [
     Produit("burger", "Burger", 7, "assets/Burger.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("burger", "Double Cheese", 9, "assets/Double_Cheese.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("burger", "Triple Cheese", 11, "assets/Triple_Cheese.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("burger", "Chicken Burger", 13, "assets/Burger_Poulet.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("pizza", "Orientale", 15, "assets/Orientale.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("pizza", "Chèvre miel", 17, "assets/Chevre_miel.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("pizza", "Chorizo", 19, "assets/Chorizo.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
     Produit("pizza", "4 fromage", 21, "assets/4_fromage.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", 1),
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
   ];
-
-//Liste pour la quantiter
-  /*List<int> items = <int>[1, 2, 3, 4, 5];
-  String dropdownValue = '1';
-*/
 
   String quantiter = "1"; // variable pour la quantite rentrer
 
@@ -332,9 +316,10 @@ class _SecondePageState extends State<SecondePage> {
                                     value: quantiter,
                                     onChanged: (value) {
                                       setState(() {
-                                        quantiter != value;
+                                        // quantiter != value;
+                                        produits[index].quantiter =
+                                            value.toString();
                                       });
-
                                       //recuperer la valeur qui value d'ou le print
                                       print(value);
                                     },

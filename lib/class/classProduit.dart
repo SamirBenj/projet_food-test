@@ -5,7 +5,7 @@ class Produit {
   String imageProduit;
   bool valeurBool;
   String description;
-  int quantiter;
+  String quantiter;
 
   Produit(
     this.categorie,
