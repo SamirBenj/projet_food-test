@@ -65,21 +65,38 @@ class _RecettePageState extends State<RecettePage> {
       body: Center(
         child: Column(children: [
           Expanded(
-            child: FutureBuilder<Recipe?>(
-              future: DbHandler().getRecipeData(),
+            child: FutureBuilder<List<Recipe>>(
+              future: DbHandler().getRecip(),
               // initialData: InitialData,
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
-                  // print(snapshot.data);
+                  print(snapshot.data);
+                  // print(snapshot.data[0].titre.toString());
                   return ListView.builder(
-                    itemCount: 1,
+                    itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Text('hello');
+                      return Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Card(
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          child: ListTile(
+                            title: Text(
+                              snapshot.data[index].titre.toString(),
+                            ),
+                            subtitle: Text(
+                              snapshot.data[index].description.toString(),
+                            ),
+                          ),
+                        ),
+                      );
                     },
                   );
-                } else {
+                } else if (snapshot.hasError) {
                   return CircularProgressIndicator();
                 }
+                return Text('nothing');
               },
             ),
           ),

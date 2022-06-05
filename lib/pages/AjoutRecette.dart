@@ -41,8 +41,11 @@ class _AjoutRecetteState extends State<AjoutRecette> {
       await DbHandler().saveRecipe(myrecipe).then((userRecipe) {
         print('it worked');
         print(userRecipe);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (builder) => RecettePage()));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (builder) => RecettePage()),
+          (Route<dynamic> route) => false,
+        );
       }).catchError((onError) {
         print(onError);
         print(context.toString() + "Error: Data Save Fail");
@@ -91,6 +94,7 @@ class _AjoutRecetteState extends State<AjoutRecette> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: nomPlat,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'Le nom du plat !';
@@ -113,6 +117,7 @@ class _AjoutRecetteState extends State<AjoutRecette> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: description,
                     validator: (val) {
                       if (val == null || val.isEmpty) {
                         return 'La description du plat !';

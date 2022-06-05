@@ -141,4 +141,21 @@ class DbHandler {
     }
     return null;
   }
+
+  Future<List<Recipe>> getRecip() async {
+    var dbClient = await db;
+
+    final List<Map<String, dynamic>> maps =
+        await dbClient!.rawQuery("SELECT * FROM $Table_Recipe");
+    print(maps);
+    return List.generate(maps.length, (i) {
+      return Recipe(
+        maps[i]['recip_id'],
+        maps[i]['titre'],
+        maps[i]['img'],
+        maps[i]['nameUser'],
+        maps[i]['description'],
+      );
+    });
+  }
 }
