@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Your',
+                        'votre',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 25,

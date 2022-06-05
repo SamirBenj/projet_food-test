@@ -59,6 +59,8 @@ class _CommandePageState extends State<CommandePage> {
       body: Form(
         key: _commandeKey,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding:
@@ -84,6 +86,28 @@ class _CommandePageState extends State<CommandePage> {
                   TextFormField(
                     validator: (val) {
                       if (val == null || val.isEmpty) {
+                        return 'Le nom du titulaire !';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Entrer le nom du titulaire de la carte',
+                    ),
+                    obscureText: false,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
                         return 'Votre adresse !';
                       }
                       return null;
@@ -92,7 +116,7 @@ class _CommandePageState extends State<CommandePage> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: 'Entrer votre adresse Adresse',
+                      hintText: 'Entrer Adresse de livraison',
                     ),
                     obscureText: false,
                   ),
@@ -137,6 +161,28 @@ class _CommandePageState extends State<CommandePage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       hintText: 'Cryptogramme',
+                    ),
+                    obscureText: true,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  TextFormField(
+                    validator: (val) {
+                      if (val == null || val.isEmpty) {
+                        return 'Votre Code secret !';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Code Secret',
                     ),
                     obscureText: true,
                   ),

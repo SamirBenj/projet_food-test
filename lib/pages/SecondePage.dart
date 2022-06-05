@@ -23,6 +23,7 @@ class _SecondePageState extends State<SecondePage> {
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
   String? email;
   String? username;
+  String? id;
   @override
   void initState() {
     // TODO: implement initState
@@ -36,9 +37,11 @@ class _SecondePageState extends State<SecondePage> {
     setState(() {
       email = sp.getString('email');
       username = sp.getString('username');
+      id = sp.getString('id');
     });
     print('email sp:' + email!);
     print('username sp: ' + username!);
+    print('user_id' + id!);
   }
 
   fonctionAddition() {
@@ -50,22 +53,52 @@ class _SecondePageState extends State<SecondePage> {
   }
 
   List<Produit> produits = [
-    Produit("burger", "Burger", 7, "assets/Burger.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
-    Produit("burger", "Double Cheese", 9, "assets/Double_Cheese.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
-    Produit("burger", "Triple Cheese", 11, "assets/Triple_Cheese.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
-    Produit("burger", "Chicken Burger", 13, "assets/Burger_Poulet.png", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
-    Produit("pizza", "Orientale", 15, "assets/Orientale.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
+    Produit(
+        "burger",
+        "Burger",
+        7,
+        "assets/Burger.png",
+        false,
+        " un steak, une tranche de cheddar, salade, tomate, sauce ketchup",
+        '1'),
+    Produit(
+        "burger",
+        "Double Cheese",
+        9,
+        "assets/Double_Cheese.png",
+        false,
+        "deux steak, deux tranche de cheddar, salade, tomate, sauce ketchup",
+        '1'),
+    Produit(
+        "burger",
+        "Triple Cheese",
+        11,
+        "assets/Triple_Cheese.png",
+        false,
+        "trois steak, trois tranche de cheddar, salade, tomate, sauce ketchup",
+        '1'),
+    Produit(
+        "burger",
+        "Chicken Burger",
+        13,
+        "assets/Burger_Poulet.png",
+        false,
+        "un poulet paner, une tranche de cheddar, salade, tomate, sauce ketchup",
+        '1'),
+    Produit(
+        "pizza",
+        "Orientale",
+        15,
+        "assets/Orientale.jpg",
+        false,
+        "Merguez, Poivron jaune, Poivron vert, Oignons, Olives noir, Mozarella, Sauce Tomate",
+        '1'),
     Produit("pizza", "Chèvre miel", 17, "assets/Chevre_miel.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
+        "Fromage de chévre, Miel, Sauce crème, Mozarella", '1'),
     Produit("pizza", "Chorizo", 19, "assets/Chorizo.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
+        "Chorizo, Mozarella, Sauce tomate", '1'),
     Produit("pizza", "4 fromage", 21, "assets/4_fromage.jpg", false,
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", '1'),
+        "Gorgonzola, Mozarrella, Tallegio, Bel paese, Sauce tomate.", '1'),
   ];
 
   String quantiter = "1"; // variable pour la quantite rentrer
@@ -276,7 +309,7 @@ class _SecondePageState extends State<SecondePage> {
                               padding: EdgeInsets.all(10),
                               child: Text(
                                 '${produits[index].description}',
-                                maxLines: 3,
+                                maxLines: 6,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   color: Colors.orangeAccent,

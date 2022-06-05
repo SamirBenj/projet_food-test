@@ -67,12 +67,15 @@ class _DetailsPageState extends State<DetailsPage> {
       ),
       body: Column(
         children: [
-          Center(
-            child: Image.asset(
-              widget.imageProduit.toString(),
-              width: double.infinity,
-              height: 230,
-              fit: BoxFit.contain,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Image.asset(
+                widget.imageProduit.toString(),
+                width: double.infinity,
+                height: 230,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
           Padding(
@@ -97,7 +100,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   Text(
                     widget.prix.toString() + '€',
                     style: TextStyle(
-                      color: Colors.red,
+                      color: Colors.white,
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
                     ),

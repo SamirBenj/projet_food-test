@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io' as io;
 
 import '../models/UserModel.dart';
+import '../../sqflite/models/RecipeModel.dart';
 
 class DbHandler {
   static final DbHandler _instance = new DbHandler.internal();
@@ -11,9 +12,11 @@ class DbHandler {
   static Database? _db;
 
   //Nom de la BDD
-  static const String DB_Name = 'new2.db';
+  static const String DB_Name = 'recip_and_user.db';
   //Nom de la Table
   static const String Table_User = 'user';
+  static const String Table_Recipe = 'recip';
+
   static const int Version = 1;
 
   static const String C_UserID = 'user_id';
@@ -60,6 +63,25 @@ class DbHandler {
              email TEXT,
              password TEXT)
       ''');
+    await db.execute('''
+          CREATE TABLE recip(
+             recip_id INTEGER PRIMARY KEY AUTOINCREMENT,
+             titre TEXT,
+             img TEXT,
+             nameUser TEXT,
+             description TEXT)
+      ''');
+  }
+
+  //Creer une recette dans la table recipe
+  Future<int?> saveRecipe(Recipe recip) async {
+    var dbClient = await db;
+    var res = await dbClient?.insert(
+      Table_Recipe,
+      recip.toMap(),
+    );
+    print(res);
+    return res;
   }
 
   //Creer l'Utilisateur
@@ -101,6 +123,21 @@ class DbHandler {
       print('worked');
       print(res.length);
       return new UserModel.fromMap(res.first);
+    }
+    return null;
+  }
+
+  //Recupere les donées des recettes
+  Future<Recipe?> getRecipeData() async {
+    var dbClient = await db;
+
+    //requete afin d'avoir les donées utilisateurs avec le meme mail.
+    var res = await dbClient!.rawQuery("SELECT * FROM $Table_Recipe");
+
+    if (res.length > 0) {
+      print('worked recipe');
+      print(res.length);
+      return new Recipe.fromMap(res.first);
     }
     return null;
   }

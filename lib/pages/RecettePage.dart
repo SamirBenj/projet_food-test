@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
+import 'package:projet_food/pages/AjoutRecette.dart';
+import 'package:projet_food/sqflite/Database/DatabaseHandler.dart';
+import 'package:projet_food/sqflite/models/RecipeModel.dart';
 
 class RecettePage extends StatefulWidget {
   final articlePanier;
@@ -12,65 +15,19 @@ class RecettePage extends StatefulWidget {
 }
 
 class _RecettePageState extends State<RecettePage> {
-  /* void ajouterRecette() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        title: Text("Ajouter une recette"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextField(
-              autofocus: true,
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text("Ajouter"),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  var dbHelper;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dbHelper = DbHandler();
+    DbHandler().initDb();
+    DbHandler().getRecipeData().then((value) => print(value));
   }
-
-  Widget cardRecette(String recette) {
-    return Card(
-      elevation: 5.0,
-      margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-      child: Container(
-        padding: EdgeInsets.all(5.0),
-        child: ListTile(
-          title: Text("$recette"),
-          onLongPress: () {},
-        ),
-      ),
-    );
-  }
-*/
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* floatingActionButton: FloatingActionButton(
-        onPressed: ajouterRecette,
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-        ),
-        backgroundColor: Colors.orange,
-      ),
-      */
       appBar: AppBar(
         title: Text(
           'Recette',
@@ -97,14 +54,37 @@ class _RecettePageState extends State<RecettePage> {
           ),
         ],
       ),
-      /*SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            cardRecette("recette 1"),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.red,
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => AjoutRecette()));
+        },
       ),
-      */
+      body: Center(
+        child: Column(children: [
+          Expanded(
+            child: FutureBuilder<Recipe?>(
+              future: DbHandler().getRecipeData(),
+              // initialData: InitialData,
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  // print(snapshot.data);
+                  return ListView.builder(
+                    itemCount: 1,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Text('hello');
+                    },
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+          ),
+        ]),
+      ),
     );
   }
 }

@@ -17,12 +17,13 @@ class _ConnexionComptePageState extends State<ConnexionComptePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Log in',
+              'Connection',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
                 color: Colors.blueAccent,
               ),
+              textAlign: TextAlign.center,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -31,7 +32,7 @@ class _ConnexionComptePageState extends State<ConnexionComptePage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText: 'Enter a email',
+                  hintText: 'Entrer votre email',
                 ),
               ),
             ),
@@ -42,7 +43,7 @@ class _ConnexionComptePageState extends State<ConnexionComptePage> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  hintText: 'Enter a password',
+                  hintText: 'Entrer votre mot de passe',
                 ),
               ),
             ),
