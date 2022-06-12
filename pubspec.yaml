@@ -41,6 +41,7 @@ dependencies:
   path: 
   email_validator:
   shared_preferences: 
+  image_picker: ^0.8.5+3
  
 
 dev_dependencies:

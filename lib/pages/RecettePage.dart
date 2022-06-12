@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:projet_food/pages/AjoutRecette.dart';
@@ -75,6 +77,8 @@ class _RecettePageState extends State<RecettePage> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
+                      print('hello');
+                      print(snapshot.data[index]?.img.toString());
                       return Padding(
                         padding: const EdgeInsets.all(10.0),
                         child: Card(
@@ -88,6 +92,20 @@ class _RecettePageState extends State<RecettePage> {
                             subtitle: Text(
                               snapshot.data[index].description.toString(),
                             ),
+                            trailing:
+                                snapshot.data[index]?.img.toString() != null
+                                    ? Image.file(
+                                        File(snapshot.data[index].img),
+                                        width: 100,
+                                        height: 100,
+                                      )
+                                    : Text(
+                                        'Veuillez choisir une image',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
                           ),
                         ),
                       );

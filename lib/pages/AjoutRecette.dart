@@ -1,8 +1,15 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:projet_food/pages/RecettePage.dart';
 import 'package:projet_food/sqflite/Database/DatabaseHandler.dart';
 import 'package:projet_food/sqflite/models/RecipeModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../class/Utility.dart';
 
 class AjoutRecette extends StatefulWidget {
   AjoutRecette({Key? key}) : super(key: key);
@@ -18,11 +25,12 @@ class _AjoutRecetteState extends State<AjoutRecette> {
   String? email;
   String? username;
   // String? id;
-
   var dbHelper;
   TextEditingController nomPlat = TextEditingController();
   TextEditingController description = TextEditingController();
-
+  // final ImagePicker _picker = ImagePicker();
+  final ImagePicker _picker = ImagePicker();
+  File? imagePic;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +45,8 @@ class _AjoutRecetteState extends State<AjoutRecette> {
     if (_recetteKey.currentState!.validate()) {
       String plat = nomPlat.text;
       String descr = description.text;
-      Recipe myrecipe = Recipe(null, plat, 'img', username, descr);
+      Recipe myrecipe =
+          Recipe(null, plat, imagePic!.path.toString(), username, descr);
       await DbHandler().saveRecipe(myrecipe).then((userRecipe) {
         print('it worked');
         print(userRecipe);
@@ -61,9 +70,30 @@ class _AjoutRecetteState extends State<AjoutRecette> {
     }
   }
 
+  Future<void> getImagePic() async {
+    // var pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
+    // // final filename = image = new File(pickedImage!.path);
+    // // String bit = base64Encode(pickedImage!.readAsBytes());
+    // setState(() {});
+    final XFile? myImage = await _picker.pickImage(source: ImageSource.gallery);
+
+    final File? imageTemp = File(myImage!.path);
+    setState(() {
+      this.imagePic = imageTemp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        icon: Icon(Icons.image),
+        onPressed: () async {
+          getImagePic();
+        },
+        label: Text('Ajouter une image'),
+      ),
       appBar: AppBar(
         title: Text('Création Recette'),
         centerTitle: true,
@@ -73,6 +103,8 @@ class _AjoutRecetteState extends State<AjoutRecette> {
         key: _recetteKey,
         child: Column(
           children: [
+            // Image.file(image ?? null),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 15.0),
               child: Row(
@@ -89,6 +121,19 @@ class _AjoutRecetteState extends State<AjoutRecette> {
                 ],
               ),
             ),
+            imagePic != null
+                ? Image.file(
+                    imagePic!,
+                    width: 100,
+                    height: 100,
+                  )
+                : Text(
+                    'Veuillez choisir une image',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.all(15.0),
               child: Column(
@@ -116,6 +161,7 @@ class _AjoutRecetteState extends State<AjoutRecette> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: [
+                  // Image.memory(im ASzage);
                   TextFormField(
                     controller: description,
                     validator: (val) {
